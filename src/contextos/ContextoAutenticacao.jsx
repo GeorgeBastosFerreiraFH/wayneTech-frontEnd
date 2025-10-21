@@ -21,9 +21,9 @@ export const ProvedorAutenticacao = ({ children }) => {
     try {
       localStorage.setItem(chave, valor)
       sessionStorage.setItem(chave, valor) // backup
-      console.log(`[v0] Salvou ${chave} em localStorage e sessionStorage`)
+      console.log(`Salvou ${chave} em localStorage e sessionStorage`)
     } catch (erro) {
-      console.error(`[v0] Erro ao salvar ${chave}:`, erro)
+      console.error(`Erro ao salvar ${chave}:`, erro)
     }
   }
 
@@ -32,10 +32,10 @@ export const ProvedorAutenticacao = ({ children }) => {
     if (!valor) {
       valor = sessionStorage.getItem(chave)
       if (valor) {
-        console.log(`[v0] ${chave} recuperado do sessionStorage (fallback)`)
+        console.log(`${chave} recuperado do sessionStorage (fallback)`)
       }
     } else {
-      console.log(`[v0] ${chave} recuperado do localStorage`)
+      console.log(`${chave} recuperado do localStorage`)
     }
     return valor
   }
@@ -43,7 +43,7 @@ export const ProvedorAutenticacao = ({ children }) => {
   const removerDados = (chave) => {
     localStorage.removeItem(chave)
     sessionStorage.removeItem(chave)
-    console.log(`[v0] Removeu ${chave} de localStorage e sessionStorage`)
+    console.log(`Removeu ${chave} de localStorage e sessionStorage`)
   }
 
   // Normaliza o objeto usuário vindo do backend/localStorage
@@ -56,7 +56,7 @@ export const ProvedorAutenticacao = ({ children }) => {
       try {
         usuarioObj = JSON.parse(u)
       } catch (e) {
-        console.error("[v0] Erro ao parsear usuário:", e)
+        console.error("Erro ao parsear usuário:", e)
         return null
       }
     }
@@ -77,44 +77,44 @@ export const ProvedorAutenticacao = ({ children }) => {
   // Verificar se há token salvo ao carregar a aplicação
   useEffect(() => {
     const verificarAutenticacao = async () => {
-      console.log("[v0] === INICIANDO VERIFICAÇÃO DE AUTENTICAÇÃO ===")
-      console.log("[v0] localStorage.length:", localStorage.length)
-      console.log("[v0] sessionStorage.length:", sessionStorage.length)
-      console.log("[v0] localStorage keys:", Object.keys(localStorage))
-      console.log("[v0] sessionStorage keys:", Object.keys(sessionStorage))
+      console.log("=== INICIANDO VERIFICAÇÃO DE AUTENTICAÇÃO ===")
+      console.log("localStorage.length:", localStorage.length)
+      console.log("sessionStorage.length:", sessionStorage.length)
+      console.log("localStorage keys:", Object.keys(localStorage))
+      console.log("sessionStorage keys:", Object.keys(sessionStorage))
 
       const tokenSalvo = recuperarDados("token")
       const usuarioSalvo = recuperarDados("usuario")
 
-      console.log("[v0] Token encontrado:", tokenSalvo ? `${tokenSalvo.substring(0, 50)}...` : "NULL")
-      console.log("[v0] Usuário encontrado:", usuarioSalvo ? usuarioSalvo.substring(0, 100) : "NULL")
+      console.log("Token encontrado:", tokenSalvo ? `${tokenSalvo.substring(0, 50)}...` : "NULL")
+      console.log("Usuário encontrado:", usuarioSalvo ? usuarioSalvo.substring(0, 100) : "NULL")
 
       if (tokenSalvo) {
         try {
-          console.log("[v0] Verificando token com o servidor...")
+          console.log("Verificando token com o servidor...")
           const resposta = await autenticacao.verificarToken()
-          console.log("[v0] Token válido, resposta do servidor:", resposta)
+          console.log("Token válido, resposta do servidor:", resposta)
 
           const usuarioNormalizado = normalizarUsuario(resposta?.usuario) || normalizarUsuario(usuarioSalvo)
-          console.log("[v0] Usuário normalizado:", usuarioNormalizado)
+          console.log("Usuário normalizado:", usuarioNormalizado)
           setUsuario(usuarioNormalizado)
           setToken(tokenSalvo)
         } catch (erro) {
-          console.error("[v0] Token inválido ou expirado:", erro)
+          console.error("Token inválido ou expirado:", erro)
           removerDados("token")
           removerDados("usuario")
           setUsuario(null)
           setToken(null)
         }
       } else if (usuarioSalvo) {
-        console.log("[v0] Sem token, mas usuário encontrado")
+        console.log("Sem token, mas usuário encontrado")
         setUsuario(normalizarUsuario(usuarioSalvo))
       } else {
-        console.log("[v0] Nenhum token ou usuário encontrado")
+        console.log("Nenhum token ou usuário encontrado")
       }
 
       setCarregando(false)
-      console.log("[v0] === VERIFICAÇÃO DE AUTENTICAÇÃO CONCLUÍDA ===")
+      console.log("=== VERIFICAÇÃO DE AUTENTICAÇÃO CONCLUÍDA ===")
     }
 
     verificarAutenticacao()
@@ -122,40 +122,40 @@ export const ProvedorAutenticacao = ({ children }) => {
 
   const login = async (email, senha) => {
     try {
-      console.log("[v0] Tentando fazer login:", { email })
+      console.log("Tentando fazer login:", { email })
       const resposta = await autenticacao.login(email, senha)
-      console.log("[v0] Resposta do login:", resposta)
+      console.log("Resposta do login:", resposta)
 
       const usuarioNormalizado = normalizarUsuario(resposta.usuario)
-      console.log("[v0] Usuário normalizado após login:", usuarioNormalizado)
+      console.log("Usuário normalizado após login:", usuarioNormalizado)
 
       setUsuario(usuarioNormalizado)
       setToken(resposta.token)
 
-      console.log("[v0] Salvando dados...")
+      console.log("Salvando dados...")
       salvarDados("token", resposta.token)
       salvarDados("usuario", JSON.stringify(usuarioNormalizado))
 
-      console.log("[v0] Verificando se foi salvo corretamente...")
+      console.log("Verificando se foi salvo corretamente...")
       const tokenVerificacao = recuperarDados("token")
       const usuarioVerificacao = recuperarDados("usuario")
-      console.log("[v0] Token recuperado:", tokenVerificacao ? tokenVerificacao.substring(0, 50) + "..." : "NULL")
-      console.log("[v0] Usuário recuperado:", usuarioVerificacao ? usuarioVerificacao.substring(0, 100) : "NULL")
+      console.log("Token recuperado:", tokenVerificacao ? tokenVerificacao.substring(0, 50) + "..." : "NULL")
+      console.log("Usuário recuperado:", usuarioVerificacao ? usuarioVerificacao.substring(0, 100) : "NULL")
 
       return { sucesso: true, usuario: usuarioNormalizado }
     } catch (erro) {
-      console.error("[v0] Erro no login:", erro)
+      console.error("Erro no login:", erro)
       return { sucesso: false, erro: erro?.message ?? "Erro no login" }
     }
   }
 
   const logout = () => {
-    console.log("[v0] Fazendo logout")
+    console.log("Fazendo logout")
     setUsuario(null)
     setToken(null)
     removerDados("token")
     removerDados("usuario")
-    console.log("[v0] Dados removidos dos storages")
+    console.log("Dados removidos dos storages")
   }
 
   const valor = {
