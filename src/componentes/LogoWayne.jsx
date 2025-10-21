@@ -106,7 +106,7 @@ function LogoWayne({ usuario }) {
           ) : (
             <LogoImagem
               key="batman"
-              src="/logo-batman-preto.jpg"
+              src="/logo-batman-preto.svg"
               alt="Batman Logo"
               initial={{ opacity: 0, rotate: 180, scale: 0.5 }}
               animate={{ opacity: 1, rotate: 0, scale: 1 }}
