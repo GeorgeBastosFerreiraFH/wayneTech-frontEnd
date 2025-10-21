@@ -1,0 +1,166 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Cores principais */
+  --cor-fundo: #000000;
+  --cor-fundo-secundario: #0a0a0a;
+  --cor-fundo-card: #111111;
+  --cor-fundo-hover: #1a1a1a;
+
+  /* Cores de texto */
+  --cor-texto-primario: #ffffff;
+  --cor-texto-secundario: #a0a0a0;
+  --cor-texto-terciario: #666666;
+
+  /* Cores neon */
+  --cor-neon-azul: #00d4ff;
+  --cor-neon-verde: #00ff88;
+  --cor-neon-laranja: #ff6b35;
+  --cor-neon-roxo: #b24bf3;
+
+  /* Cores Wayne */
+  --cor-wayne-dourado: #d4af37;
+  --cor-wayne-cinza: #2a2a2a;
+
+  /* Cores Batman */
+  --cor-batman-amarelo: #ffd700;
+  --cor-batman-preto: #1a1a1a;
+
+  /* Bordas e sombras */
+  --borda-neon: 1px solid var(--cor-neon-azul);
+  --sombra-neon-azul: 0 0 20px rgba(0, 212, 255, 0.5);
+  --sombra-neon-verde: 0 0 20px rgba(0, 255, 136, 0.5);
+
+  /* Fontes */
+  --fonte-titulo: "Orbitron", sans-serif;
+  --fonte-corpo: "Inter", sans-serif;
+
+  /* Transições */
+  --transicao-rapida: 0.2s ease;
+  --transicao-media: 0.4s ease;
+  --transicao-lenta: 0.6s ease;
+}
+
+body {
+  font-family: var(--fonte-corpo);
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto-primario);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cor-fundo-secundario);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cor-neon-azul);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cor-neon-verde);
+}
+
+/* Animações globais */
+@keyframes pulsar-neon {
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.8;
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes deslizar-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes girar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Efeito holográfico */
+.holografico {
+  position: relative;
+  overflow: hidden;
+}
+
+.holografico::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(0, 212, 255, 0.1) 50%, transparent 70%);
+  animation: varredura-holografica 3s linear infinite;
+}
+
+@keyframes varredura-holografica {
+  0% {
+    transform: translateX(-100%) translateY(-100%);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%);
+  }
+}
+
+/* Utilitários */
+.texto-neon-azul {
+  color: var(--cor-neon-azul);
+  text-shadow: 0 0 10px var(--cor-neon-azul);
+}
+
+.texto-neon-verde {
+  color: var(--cor-neon-verde);
+  text-shadow: 0 0 10px var(--cor-neon-verde);
+}
+
+.texto-wayne {
+  color: var(--cor-wayne-dourado);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
