@@ -25,7 +25,7 @@ const fetchComToken = async (url, options = {}) => {
     headers["Authorization"] = `Bearer ${token}`
   }
 
-  console.log("[v0] API Request:", {
+  console.log("API Request:", {
     url: `${API_URL}${url}`,
     method: options.method || "GET",
     hasToken: !!token,
@@ -42,7 +42,7 @@ const fetchComToken = async (url, options = {}) => {
       cache: "no-store",
     })
   } catch (networkErr) {
-    console.error("[v0] Network error:", networkErr)
+    console.error("Network error:", networkErr)
     throw new Error("Erro de rede: não foi possível conectar à API")
   }
 
@@ -54,7 +54,7 @@ const fetchComToken = async (url, options = {}) => {
     data = text
   }
 
-  console.log("[v0] API Response:", {
+  console.log("API Response:", {
     url: `${API_URL}${url}`,
     status: response.status,
     ok: response.ok,
